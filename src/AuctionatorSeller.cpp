@@ -69,7 +69,7 @@ void AuctionatorSeller::LetsGetToIt(uint32 maxCount, uint32 houseId)
                     count(ii.itemEntry) as itemCount
                     , ii.itemEntry AS itemEntry
                 FROM
-                    acore_characters.item_instance ii
+                    acore_pbarac_characters.item_instance ii
                     INNER JOIN {}.auctionhouse ah ON ii.guid = ah.itemguid
                     LEFT JOIN item_template it ON ii.itemEntry = it.entry
                 WHERE ah.houseId = {}
