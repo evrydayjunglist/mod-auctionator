@@ -3,6 +3,7 @@
 #include "AuctionatorBidder.h"
 #include "AuctionatorSeller.h"
 #include "Log.h"
+#include "Duration.h"
 #include <functional>
 
 AuctionatorEvents::AuctionatorEvents(AuctionatorConfig* auctionatorConfig)
@@ -44,27 +45,27 @@ void AuctionatorEvents::InitializeEvents()
 
     // AllianceBidder
     if (config->allianceBidder.enabled) {
-        events.ScheduleEvent(1, config->allianceBidder.cycleMinutes);
+        events.ScheduleEvent(1, Minutes(config->allianceBidder.cycleMinutes));
     }
     // HordeBidder
     if (config->hordeBidder.enabled) {
-        events.ScheduleEvent(2, config->hordeBidder.cycleMinutes);
+        events.ScheduleEvent(2, Minutes(config->hordeBidder.cycleMinutes));
     }
     // NeutralBidder
     if (config->neutralBidder.enabled) {
-        events.ScheduleEvent(3, config->neutralBidder.cycleMinutes);
+        events.ScheduleEvent(3, Minutes(config->neutralBidder.cycleMinutes));
     }
 
     if (config->allianceSeller.enabled) {
-        events.ScheduleEvent(4, 1);
+        events.ScheduleEvent(4, 1min);
     }
 
     if (config->hordeSeller.enabled) {
-        events.ScheduleEvent(5, 1);
+        events.ScheduleEvent(5, 1min);
     }
 
     if (config->neutralSeller.enabled) {
-        events.ScheduleEvent(6, 1);
+        events.ScheduleEvent(6, 1min);
     }
 }
 
@@ -85,37 +86,37 @@ void AuctionatorEvents::ExecuteEvents()
                     case 1:
                         EventAllianceBidder();
                         if (config->allianceBidder.enabled) {
-                            events.ScheduleEvent(currentEvent, config->allianceBidder.cycleMinutes);
+                            events.ScheduleEvent(currentEvent, Minutes(config->allianceBidder.cycleMinutes));
                         }
                         break;
                     case 2:
                         EventHordeBidder();
                         if (config->hordeBidder.enabled) {
-                            events.ScheduleEvent(currentEvent, config->hordeBidder.cycleMinutes);
+                            events.ScheduleEvent(currentEvent, Minutes(config->hordeBidder.cycleMinutes));
                         }
                         break;
                     case 3:
                         EventNeutralBidder();
                         if (config->neutralBidder.enabled) {
-                            events.ScheduleEvent(currentEvent, config->neutralBidder.cycleMinutes);
+                            events.ScheduleEvent(currentEvent, Minutes(config->neutralBidder.cycleMinutes));
                         }
                         break;
                     case 4:
                         EventAllianceSeller();
                         if (config->allianceSeller.enabled) {
-                            events.ScheduleEvent(currentEvent, 1);
+                            events.ScheduleEvent(currentEvent, 1min);
                         }
                         break;
                     case 5:
                         EventHordeSeller();
                         if (config->hordeSeller.enabled) {
-                            events.ScheduleEvent(currentEvent, 1);
+                            events.ScheduleEvent(currentEvent, 1min);
                         }
                         break;
                     case 6:
                         EventNeutralSeller();
                         if (config->neutralSeller.enabled) {
-                            events.ScheduleEvent(currentEvent, 1);
+                            events.ScheduleEvent(currentEvent, 1min);
                         }
                         break;
                 }
